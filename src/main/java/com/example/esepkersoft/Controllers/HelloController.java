@@ -1,4 +1,4 @@
-package com.example.esepkersoft;
+package com.example.esepkersoft.Controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

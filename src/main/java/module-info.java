@@ -10,4 +10,6 @@ module com.example.esepkersoft {
 
     opens com.example.esepkersoft to javafx.fxml;
     exports com.example.esepkersoft;
+    exports com.example.esepkersoft.Controllers;
+    opens com.example.esepkersoft.Controllers to javafx.fxml;
 }
