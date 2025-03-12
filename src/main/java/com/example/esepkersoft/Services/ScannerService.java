@@ -9,7 +9,6 @@ public class ScannerService {
         this.barcodeListener = listener;
         System.out.println("Barcode listener set successfully.");
     }
-
     public void handleBarcodeInput(String barcode) {
         System.out.println("Received barcode input: " + barcode);
         if (barcodeListener != null && barcode != null && !barcode.isEmpty()) {

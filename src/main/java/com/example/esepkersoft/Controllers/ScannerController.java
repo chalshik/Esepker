@@ -6,6 +6,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import com.example.esepkersoft.Services.ProductOperations;
+
+import java.util.List;
+import java.util.Map;
 
 public class ScannerController {
     @FXML
@@ -13,7 +17,6 @@ public class ScannerController {
 
     @FXML
     private ListView<String> cartListView;
-
     private final ScannerService barcodeScannerService = new ScannerService();
 
     @FXML
@@ -43,8 +46,12 @@ public class ScannerController {
 
         // Add scanned barcode to shopping cart
         if (cartListView != null) {
-            cartListView.getItems().add("Product: " + barcode);
-            System.out.println("Barcode added to cart: " + barcode);
+            List<Map<String,Object>> data= ProductOperations.getProductByBarcode(barcode);
+            for(Map<String,Object> dat:data){
+                cartListView.getItems().add("Product: " + dat.get("name"));
+                System.out.println("Barcode added to cart: " + barcode);
+            }
+
         } else {
             System.out.println("cartListView is null!");
         }
