@@ -2,7 +2,9 @@ package com.example.esepkersoft.Services;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class dbManager {
     // Singleton instance
@@ -25,8 +27,8 @@ public class dbManager {
     // Connect to SQLite database
     private boolean connectDB() {
         try {
-            // SQLite connection URL
-            String url = "jdbc:sqlite:ecotaxidb.db";
+            // SQLite connection URL (local file)
+            String url = "jdbc:sqlite:shop.db"; // Database file will be created in the project root
             connection = DriverManager.getConnection(url);
             System.out.println("Database connected successfully!");
             createTables();
@@ -54,7 +56,7 @@ public class dbManager {
 
     // Show error (replace with your UI logic)
     private void openError() {
-        System.err.println("No internet or database error occurred.");
+        System.err.println("Database error occurred.");
         // Example: Show a dialog or retry logic
     }
 
@@ -72,8 +74,8 @@ public class dbManager {
     }
 
     // Execute a GET query (SELECT)
-    public List<List<Object>> executeGet(String query) {
-        List<List<Object>> result = new ArrayList<>();
+    public List<Map<String, Object>> executeGet(String query) {
+        List<Map<String, Object>> result = new ArrayList<>();
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
             System.out.println("Executing GET query: " + query);
@@ -81,9 +83,11 @@ public class dbManager {
             int columnCount = metaData.getColumnCount();
 
             while (resultSet.next()) {
-                List<Object> row = new ArrayList<>();
+                Map<String, Object> row = new HashMap<>();
                 for (int i = 1; i <= columnCount; i++) {
-                    row.add(resultSet.getObject(i));
+                    String columnName = metaData.getColumnName(i);
+                    Object columnValue = resultSet.getObject(i);
+                    row.put(columnName, columnValue);
                 }
                 result.add(row);
             }
