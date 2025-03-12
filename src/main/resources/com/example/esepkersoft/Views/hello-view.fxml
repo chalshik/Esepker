@@ -1,16 +1,21 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TextField?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.esepkersoft.Controllers.ScannerController"
+            prefWidth="400" prefHeight="400">
+  <center>
+    <ListView fx:id="cartListView" />
+  </center>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.esepkersoft.Controllers.HelloController">
-  <padding>
-    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-  </padding>
-
-  <Label fx:id="welcomeText"/>
-  <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+  <top>
+    <HBox>
+      <TextField fx:id="barcodeInput"
+                 opacity="0"
+                 focusTraversable="false"
+                 prefWidth="0"
+                 prefHeight="0"/>
+    </HBox>
+  </top>
+</BorderPane>
