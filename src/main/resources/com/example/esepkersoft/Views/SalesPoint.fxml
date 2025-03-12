@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -8,23 +9,22 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Circle?>
 
-<?import javafx.scene.Group?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.esepkersoft.Controllers.SalesPointController">
    <children>
-      <ListView fx:id="productsList" layoutY="-7.0" prefHeight="207.0" prefWidth="600.0" />
-      <TextField fx:id="barcodeInput" focusTraversable="false" opacity="0" prefHeight="0" prefWidth="0" />
+      <TextField fx:id="barcodeInput" focusTraversable="false" layoutX="14.0" layoutY="206.0" opacity="0" prefHeight="86.0" prefWidth="373.0" />
       <TextField fx:id="amountInput" layoutX="405.0" layoutY="224.0" prefHeight="31.0" prefWidth="58.0" />
       <ComboBox fx:id="unitComboBox" layoutX="491.0" layoutY="227.0" prefHeight="26.0" prefWidth="65.0" />
       <Circle fx:id="cashCircle" fill="WHITE" layoutX="24.0" layoutY="330.0" onMouseClicked="#handleCashClick" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
       <Label layoutX="54.0" layoutY="321.0" text="С НАЛИЧНЫМИ" />
       <Circle fx:id="cardCircle" fill="WHITE" layoutX="24.0" layoutY="366.0" onMouseClicked="#handleCardClick" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
       <Label layoutX="54.0" layoutY="357.0" text="С КАРТОЙ" />
-      <Group fx:id="cashOptionGroup">
+      <Group>
        <TextField layoutX="300.0" layoutY="317.0" prefHeight="14.0" prefWidth="58.0" />
       <Label layoutX="246.0" layoutY="321.0" text="ВЗНОС:" />
       <Label layoutX="246.0" layoutY="357.0" text="СДАЧА:" />
       <Label layoutX="308.0" layoutY="357.0" text="0" />
        </Group>
       <Button layoutX="438.0" layoutY="330.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="103.0" text="ЗАВЕРШИТЬ" />
+      <ListView layoutX="-1.0" prefHeight="200.0" prefWidth="621.0" />
    </children>
 </AnchorPane>

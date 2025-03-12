@@ -8,6 +8,7 @@ module com.example.esepkersoft {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires java.desktop;
+    requires java.sql;
 
     opens com.example.esepkersoft to javafx.fxml;
     exports com.example.esepkersoft;
