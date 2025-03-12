@@ -60,12 +60,16 @@ public class SalesPointController {
     // Circles functionality
     @FXML
     private void handleCashClick() {
+        cashOptionGroup.setVisible(true);
+
         cashCircle.setFill(Color.BLUE); // Set cashCircle to blue
         cardCircle.setFill(Color.WHITE); // Reset cardCircle to default color
     }
 
     @FXML
     private void handleCardClick() {
+        cashOptionGroup.setVisible(false);
+
         cardCircle.setFill(Color.BLUE); // Set cardCircle to blue
         cashCircle.setFill(Color.WHITE); // Reset cashCircle to default color
         
