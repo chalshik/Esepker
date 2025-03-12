@@ -18,8 +18,8 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        dbManager db = dbManager.getInstance();
-        db.executeSet("INSERT INTO products (barcode, name) VALUES('4690302738365', 'tomat')");
+//        dbManager db = dbManager.getInstance();
+//        db.executeSet("INSERT INTO products (barcode, name) VALUES('4690302738365', 'tomat')");
         launch();
     }
 }
