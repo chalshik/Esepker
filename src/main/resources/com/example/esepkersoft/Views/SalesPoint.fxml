@@ -2,29 +2,65 @@
 
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.esepkersoft.Controllers.SalesPointController">
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.esepkersoft.Controllers.SalesPointController">
    <children>
-      <TextField fx:id="barcodeInput" focusTraversable="false" layoutX="14.0" layoutY="206.0" opacity="0" prefHeight="86.0" prefWidth="373.0" />
-      <TextField fx:id="amountInput" layoutX="405.0" layoutY="224.0" prefHeight="31.0" prefWidth="58.0" />
-      <ComboBox fx:id="unitComboBox" layoutX="491.0" layoutY="227.0" prefHeight="26.0" prefWidth="65.0" />
-      <Circle fx:id="cashCircle" fill="WHITE" layoutX="24.0" layoutY="330.0" onMouseClicked="#handleCashClick" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
-      <Label layoutX="54.0" layoutY="321.0" text="С НАЛИЧНЫМИ" />
-      <Circle fx:id="cardCircle" fill="WHITE" layoutX="24.0" layoutY="366.0" onMouseClicked="#handleCardClick" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
-      <Label layoutX="54.0" layoutY="357.0" text="С КАРТОЙ" />
-      <Group fx:id="cashOptionGroup">
-       <TextField layoutX="300.0" layoutY="317.0" prefHeight="14.0" prefWidth="58.0" />
-      <Label layoutX="246.0" layoutY="321.0" text="ВЗНОС:" />
-      <Label layoutX="246.0" layoutY="357.0" text="СДАЧА:" />
-      <Label layoutX="308.0" layoutY="357.0" text="0" />
-       </Group>
-      <Button layoutX="438.0" layoutY="330.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="103.0" text="ЗАВЕРШИТЬ" />
-      <ListView fx:id="productsList" layoutX="-1.0" prefHeight="200.0" prefWidth="621.0" />
+      <ListView fx:id="productsList" layoutX="11.0" layoutY="14.0" prefHeight="295.0" prefWidth="1058.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="11.0" />
+
+      <TextField fx:id="barcodeInput" focusTraversable="false" layoutX="11.0" layoutY="324.0" prefHeight="170.0" prefWidth="926.0" style="-fx-background-color: white;" />
+      <TextField fx:id="amountInput" layoutX="960.0" layoutY="350.0" prefHeight="88.0" prefWidth="154.0">
+         <font>
+            <Font size="48.0" />
+         </font></TextField>
+
+      <Group fx:id="cashOptionGroup" AnchorPane.bottomAnchor="30.0">
+         <Circle fx:id="cashCircle" fill="WHITE" layoutX="99.0" layoutY="579.0" onMouseClicked="#handleCashClick" radius="32.0" stroke="BLACK" strokeType="INSIDE" />
+         <Label layoutX="150.0" layoutY="544.0" prefHeight="70.0" prefWidth="390.0" text="С НАЛИЧНЫМИ">
+            <font>
+               <Font size="48.0" />
+            </font></Label>
+         <Circle fx:id="cardCircle" fill="WHITE" layoutX="99.0" layoutY="659.0" onMouseClicked="#handleCardClick" radius="32.0" stroke="BLACK" strokeType="INSIDE" />
+         <Label layoutX="150.0" layoutY="624.0" prefHeight="70.0" prefWidth="240.0" text="С КАРТОЙ">
+            <font>
+               <Font size="48.0" />
+            </font>
+         </Label>
+      </Group>
+
+
+      <Group fx:id="" AnchorPane.bottomAnchor="30.0">
+         <Label layoutX="604.0" layoutY="519.0" prefHeight="70.0" prefWidth="240.0" text="ВЗНОС:">
+            <font>
+               <Font size="48.0" />
+            </font>
+         </Label>
+         <Label layoutX="604.0" layoutY="594.0" prefHeight="70.0" prefWidth="240.0" text="СУММА:">
+            <font>
+               <Font size="48.0" />
+            </font>
+         </Label>
+         <TextField layoutX="844.0" layoutY="529.0" prefHeight="32.0" prefWidth="154.0">
+            <font>
+               <Font size="24.0" />
+            </font>
+         </TextField>
+         <Label layoutX="850.0" layoutY="594.0" prefHeight="70.0" prefWidth="126.0" style="-fx-alignment: center;" text="0">
+            <font>
+               <Font size="48.0" />
+            </font>
+         </Label>
+      </Group>
+
+      <Button fx:id="finishButton" layoutX="1496.0" layoutY="550.0" mnemonicParsing="false" prefHeight="102.0" prefWidth="358.0" text="ЗАВЕРШИТЬ" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="20.0">
+         <font>
+            <Font size="48.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

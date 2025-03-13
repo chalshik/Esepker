@@ -38,8 +38,8 @@ public class SalesPointController {
         cashCircle.setFill(Color.BLUE);
 
         // Set ComboBox items for products
-        unitComboBox.getItems().addAll("гр", "кг");
-        unitComboBox.setValue("гр"); // Default selection
+//        unitComboBox.getItems().addAll("гр", "кг");
+//        unitComboBox.setValue("гр"); // Default selection
 
         // Request focus on the barcode input field
         Platform.runLater(() -> barcodeInput.requestFocus());
@@ -78,12 +78,7 @@ public class SalesPointController {
     private void handleBarcode(String barcode) {
         System.out.println("Handling barcode: " + barcode);
 
-        // Add scanned barcode to product list
-        if (productsList != null) {
-            productsList.getItems().add("Product: " + barcode);
-            System.out.println("Barcode added to product list: " + barcode);
-        } else {
-            System.out.println("productsList is null!");
-        }
+
+        barcodeInput.setText(barcode);
     }
 }

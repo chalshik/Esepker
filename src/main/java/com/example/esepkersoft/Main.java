@@ -11,9 +11,13 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Views/SalesPoint.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400); // Larger window size
+        Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Barcode Scanner");
         stage.setScene(scene);
+        
+        // Make application full screen
+        stage.setMaximized(true);
+        
         stage.show();
     }
 
