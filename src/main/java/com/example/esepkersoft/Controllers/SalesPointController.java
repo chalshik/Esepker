@@ -70,7 +70,7 @@ public class SalesPointController {
     private void handleCardClick() {
         cashOptionGroup.setVisible(false);
 
-        cardCircle.setFill(Color.BLUE); // Set cardCircle to blue
+        cardCircle.setFill(Color.RED); // Set cardCircle to blue
         cashCircle.setFill(Color.WHITE); // Reset cashCircle to default color
         
     }
