@@ -13,6 +13,8 @@ import com.example.esepkersoft.Services.ScannerService;
 
 public class SalesPointController {
     @FXML
+    private Group cashOptionGroup;
+    @FXML
     private Circle cashCircle;
     @FXML
     private Circle cardCircle;
@@ -21,14 +23,13 @@ public class SalesPointController {
     @FXML
     private ListView<String> productsList;
 
-    @FXML
-    private Group cashOptionGroup;
+
 
     // Sale Point (Product ComboBox and Price Label)
     @FXML
     private ComboBox<String> unitComboBox;
     @FXML
-    private Label totalPriceLabel;
+    private Label clientChange;
     
     private final ScannerService barcodeScannerService = new ScannerService();
 
@@ -70,7 +71,7 @@ public class SalesPointController {
     private void handleCardClick() {
         cashOptionGroup.setVisible(false);
 
-        cardCircle.setFill(Color.RED); // Set cardCircle to blue
+        cardCircle.setFill(Color.BLUE); // Set cardCircle to blue
         cashCircle.setFill(Color.WHITE); // Reset cashCircle to default color
         
     }
