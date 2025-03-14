@@ -19,7 +19,7 @@
             <Font size="48.0" />
          </font></TextField>
 
-      <Group fx:id="cashOptionGroup" AnchorPane.bottomAnchor="30.0">
+      <Group fx:id="paymentOptionGroup" AnchorPane.bottomAnchor="30.0">
          <Circle fx:id="cashCircle" fill="WHITE" layoutX="99.0" layoutY="579.0" onMouseClicked="#handleCashClick" radius="32.0" stroke="BLACK" strokeType="INSIDE" />
          <Label layoutX="150.0" layoutY="544.0" prefHeight="70.0" prefWidth="390.0" text="С НАЛИЧНЫМИ">
             <font>
@@ -34,23 +34,23 @@
       </Group>
 
 
-      <Group fx:id="" AnchorPane.bottomAnchor="30.0">
+      <Group fx:id="cashOptionGroup" AnchorPane.bottomAnchor="30.0">
          <Label layoutX="604.0" layoutY="519.0" prefHeight="70.0" prefWidth="240.0" text="ВЗНОС:">
             <font>
                <Font size="48.0" />
             </font>
          </Label>
-         <Label layoutX="604.0" layoutY="594.0" prefHeight="70.0" prefWidth="240.0" text="СУММА:">
+         <Label layoutX="604.0" layoutY="594.0" prefHeight="70.0" prefWidth="240.0" text="СДАЧА:">
             <font>
                <Font size="48.0" />
             </font>
          </Label>
-         <TextField layoutX="844.0" layoutY="529.0" prefHeight="32.0" prefWidth="154.0">
+         <TextField fx:id="clientMoney" layoutX="844.0" layoutY="529.0" prefHeight="32.0" prefWidth="154.0">
             <font>
                <Font size="24.0" />
             </font>
          </TextField>
-         <Label layoutX="850.0" layoutY="594.0" prefHeight="70.0" prefWidth="126.0" style="-fx-alignment: center;" text="0">
+         <Label fx:id="clientChange" layoutX="850.0" layoutY="594.0" prefHeight="70.0" prefWidth="126.0" style="-fx-alignment: center;" text="0">
             <font>
                <Font size="48.0" />
             </font>
