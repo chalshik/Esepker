@@ -61,10 +61,16 @@ public class dbManager {
     }
 
     // Execute a SET query (INSERT, UPDATE, DELETE)
-    public boolean executeSet(String query) {
-        try (Statement statement = connection.createStatement()) {
-            System.out.println("Executing SET query: " + query);
-            statement.execute(query);
+    public boolean executeSet(String query, Object... params) {
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            System.out.println("Executing parameterized SET query: " + query);
+
+            // Set parameters
+            for (int i = 0; i < params.length; i++) {
+                statement.setObject(i + 1, params[i]);
+            }
+
+            statement.executeUpdate();
             return true;
         } catch (SQLException e) {
             System.err.println("SET query error: " + e.getMessage());
@@ -74,22 +80,29 @@ public class dbManager {
     }
 
     // Execute a GET query (SELECT)
-    public List<Map<String, Object>> executeGet(String query) {
+    public List<Map<String, Object>> executeGet(String query, Object... params) {
         List<Map<String, Object>> result = new ArrayList<>();
-        try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)) {
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
             System.out.println("Executing GET query: " + query);
-            ResultSetMetaData metaData = resultSet.getMetaData();
-            int columnCount = metaData.getColumnCount();
 
-            while (resultSet.next()) {
-                Map<String, Object> row = new HashMap<>();
-                for (int i = 1; i <= columnCount; i++) {
-                    String columnName = metaData.getColumnName(i);
-                    Object columnValue = resultSet.getObject(i);
-                    row.put(columnName, columnValue);
+            // Set parameters
+            for (int i = 0; i < params.length; i++) {
+                statement.setObject(i + 1, params[i]);
+            }
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                ResultSetMetaData metaData = resultSet.getMetaData();
+                int columnCount = metaData.getColumnCount();
+
+                while (resultSet.next()) {
+                    Map<String, Object> row = new HashMap<>();
+                    for (int i = 1; i <= columnCount; i++) {
+                        String columnName = metaData.getColumnName(i);
+                        Object columnValue = resultSet.getObject(i);
+                        row.put(columnName, columnValue);
+                    }
+                    result.add(row);
                 }
-                result.add(row);
             }
         } catch (SQLException e) {
             System.err.println("GET query error: " + e.getMessage());
@@ -100,10 +113,43 @@ public class dbManager {
 
     // Create necessary tables
     private void createTables() {
-        String createTableQuery = "CREATE TABLE IF NOT EXISTS products ("
+       createProductTables();
+       createSalesTables();
+       System.out.println("tables created");
+
+    }
+    private void createProductTables() {
+        String createProductsTable = "CREATE TABLE IF NOT EXISTS products ("
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + "barcode TEXT NOT NULL UNIQUE, "
-                + "name TEXT NOT NULL)";
-        executeSet(createTableQuery);
+                + "name TEXT NOT NULL, "
+                + "type TEXT NOT NULL, "            // New column for product type
+                + "purchase_price REAL NOT NULL, "  // New column for purchase price
+                + "sale_price REAL NOT NULL"        // New column for sale price
+                + ");";
+
+        executeSet(createProductsTable);
+
+    }
+    private void createSalesTables() {
+        String createSalesTable = "CREATE TABLE IF NOT EXISTS transactions ("
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "payment TEXT NOT NULL, "
+                + "moment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+                + "total REAL NOT NULL);";
+
+        String createSalesItemsTable = "CREATE TABLE IF NOT EXISTS transacton_items ("
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "transaction_id INTEGER NOT NULL, "
+                + "product_id INTEGER NOT NULL, "
+                + "quantity INTEGER NOT NULL DEFAULT 1, "
+                + "price REAL NOT NULL, "
+                + "payment TEXT"
+                + "FOREIGN KEY (transaction_id) REFERENCES transaction(id) ON DELETE CASCADE, "
+                + "FOREIGN KEY (product_id) REFERENCES products(id)"
+                + ");";
+
+        executeSet(createSalesTable);
+        executeSet(createSalesItemsTable);
     }
 }

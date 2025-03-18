@@ -1,5 +1,4 @@
 package com.example.esepkersoft.Services;
-import com.example.esepkersoft.Services.dbManager;
 
 import java.util.List;
 import java.util.Map;
@@ -11,7 +10,7 @@ import java.util.Map;
         dbManager db = dbManager.getInstance();
         // Construct the query string manually
         String query = "SELECT * FROM products WHERE barcode = '" + barcode + "'";
-        List<Map<String, Object>> data = db.executeGet(query);
+        List<Map<String, Object>> data = db.executeGet(query, transactionId, barcode);
         return data;
     }
 }
