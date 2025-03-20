@@ -21,9 +21,9 @@ public class Main extends Application {
         stage.show();
     }
 
-    public static void main(String[] args) {
+//    public static void main(String[] args) {
 //        dbManager db = dbManager.getInstance();
 //        db.executeSet("INSERT INTO products (barcode, name) VALUES('4690302738365', 'tomat')");
-        launch();
-    }
+//        launch();
+//    }
 }
