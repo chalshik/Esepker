@@ -10,9 +10,10 @@ import java.io.IOException;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Views/SalesPoint.fxml"));
+        // Load the login screen first
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Views/Login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Barcode Scanner");
+        stage.setTitle("Login");
         stage.setScene(scene);
         
         // Make application full screen
@@ -21,9 +22,7 @@ public class Main extends Application {
         stage.show();
     }
 
-//    public static void main(String[] args) {
-//        dbManager db = dbManager.getInstance();
-//        db.executeSet("INSERT INTO products (barcode, name) VALUES('4690302738365', 'tomat')");
-//        launch();
-//    }
+    public static void main(String[] args) {
+        launch();
+    }
 }
