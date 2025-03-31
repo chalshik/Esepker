@@ -17,13 +17,13 @@ public class Main extends Application {
         
         // Make application full screen
         stage.setMaximized(true);
+        stage.setFullScreen(true);
         
         stage.show();
     }
 
-//    public static void main(String[] args) {
-//        dbManager db = dbManager.getInstance();
-//        db.executeSet("INSERT INTO products (barcode, name) VALUES('4690302738365', 'tomat')");
-//        launch();
-//    }
+    public static void main(String[] args) {
+
+        launch();
+   }
 }

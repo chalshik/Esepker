@@ -1,102 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Group?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Circle?>
-<?import javafx.scene.text.Font?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.esepkersoft.Controllers.SalesPointController">
-   <children>
-      <TableView fx:id="productsTableView" layoutX="14.0" layoutY="14.0" prefHeight="311.0" prefWidth="1899.0" style="-fx-border-color: white; -fx-font-size: 24px;" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="14.0">
-         <columns>
-            <TableColumn fx:id="productColumn" prefWidth="1000.0" />
-            <TableColumn fx:id="amountColumn" prefWidth="200.0" />
-            <TableColumn fx:id="priceColumn" prefWidth="300.0" />
-         </columns>
-         <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-         </columnResizePolicy>
-         <style>
-            -fx-border-color: white;
-            -fx-font-size: 24px;
-         </style>
-      </TableView>
-      <TextField fx:id="barcodeInput" focusTraversable="false" layoutX="11.0" layoutY="324.0" prefHeight="170.0" prefWidth="926.0" style="-fx-background-color: white;">
-         <font>
-            <Font size="48.0" />
-         </font></TextField>
-      <TextField fx:id="amountInput" layoutX="960.0" layoutY="350.0" prefHeight="88.0" prefWidth="154.0">
-         <font>
-            <Font size="48.0" />
-         </font></TextField>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.esepkersoft.Controllers.SalesPointController">
+    <children>
 
-      <Group fx:id="paymentOptionGroup" AnchorPane.bottomAnchor="30.0">
-         <Circle fx:id="cashCircle" fill="WHITE" layoutX="99.0" layoutY="579.0" onMouseClicked="#handleCashClick" radius="32.0" stroke="BLACK" strokeType="INSIDE" />
-         <Label layoutX="150.0" layoutY="544.0" prefHeight="70.0" prefWidth="390.0" text="С НАЛИЧНЫМИ">
-            <font>
-               <Font size="48.0" />
-            </font></Label>
-         <Circle fx:id="cardCircle" fill="WHITE" layoutX="99.0" layoutY="659.0" onMouseClicked="#handleCardClick" radius="32.0" stroke="BLACK" strokeType="INSIDE" />
-         <Label layoutX="150.0" layoutY="624.0" prefHeight="70.0" prefWidth="240.0" text="С КАРТОЙ">
-            <font>
-               <Font size="48.0" />
-            </font>
-         </Label>
-      </Group>
+        <HBox spacing="20" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="20">
+            <children>
+                <!-- Left Side: Barcode Scanning and Product Entry -->
+                <VBox spacing="15" HBox.hgrow="ALWAYS">
+                    <children>
+                        <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 10;">
+                            <children>
+                                <Label style="-fx-font-weight: bold; -fx-font-size: 18px;" text="Barcode Scanning" />
+                                <HBox spacing="10">
+                                    <children>
+                                        <TextField fx:id="barcodeField" promptText="Scan Barcode" style="-fx-font-size: 16px; -fx-padding: 10px;" HBox.hgrow="ALWAYS" />
+                                        <Button fx:id="scanBarcodebtn" style="-fx-font-size: 16px; -fx-padding: 10px 20px;" text="Scan" />
+                                    </children>
+                                </HBox>
 
+                                <VBox fx:id="productDetailsPane" spacing="10" style="-fx-background-color: #E8F5E9; -fx-padding: 15; -fx-background-radius: 10;">
+                                    <children>
+                                        <Label fx:id="productNameLabel" style="-fx-font-size: 16px;" />
+                                        <Label fx:id="productPriceLabel" style="-fx-font-size: 16px;" />
 
-      <Group fx:id="cashOptionGroup" AnchorPane.bottomAnchor="30.0">
-         <Label layoutX="604.0" layoutY="519.0" prefHeight="70.0" prefWidth="240.0" text="ВЗНОС:">
-            <font>
-               <Font size="48.0" />
-            </font>
-         </Label>
-         <Label layoutX="604.0" layoutY="594.0" prefHeight="70.0" prefWidth="240.0" text="СДАЧА:">
-            <font>
-               <Font size="48.0" />
-            </font>
-         </Label>
-         <TextField fx:id="clientMoney" layoutX="844.0" layoutY="529.0" prefHeight="32.0" prefWidth="154.0">
-            <font>
-               <Font size="24.0" />
-            </font>
-         </TextField>
-         <Label fx:id="clientChange" layoutX="850.0" layoutY="594.0" prefHeight="70.0" prefWidth="126.0" style="-fx-alignment: center;" text="0">
-            <font>
-               <Font size="48.0" />
-            </font>
-         </Label>
-      </Group>
+                                        <HBox alignment="CENTER_LEFT" spacing="10">
+                                            <children>
+                                                <Label style="-fx-font-size: 16px;" text="Quantity:" />
+                                                <TextField fx:id="quantityField" prefWidth="80" style="-fx-font-size: 16px; -fx-padding: 8px;" />
+                                                <ComboBox fx:id="measureUnitCombo" style="-fx-font-size: 16px;" />
+                                                <Label fx:id="totalOfProductLabel" style="-fx-font-size: 16px;" text="Label" />
+                                                <Button fx:id="addToCartbtn" style="-fx-font-size: 16px; -fx-padding: 10px 20px;" text="Add to Cart" />
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </VBox>
 
-      <Button fx:id="finishButton" layoutX="1496.0" layoutY="550.0" mnemonicParsing="false" prefHeight="102.0" prefWidth="358.0" text="ЗАВЕРШИТЬ" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="20.0">
-         <font>
-            <Font size="48.0" />
-         </font>
-      </Button>
-      <ComboBox fx:id="unitComboBox" layoutX="1166.0" layoutY="369.0" prefHeight="64.0" prefWidth="150.0" style="-fx-font-size: 24px;" />
-      <Label fx:id="pieceLabel" layoutX="1166.0" layoutY="369.0" prefHeight="64.0" prefWidth="150.0" text="шт" visible="false">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
+                        <!-- Cart Section -->
+                        <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 10;">
+                            <children>
+                                <Label style="-fx-font-weight: bold; -fx-font-size: 18px;" text="Cart" />
+                                <TableView fx:id="cartTable" style="-fx-font-size: 16px;">
+                                    <columns>
+                                        <TableColumn fx:id="barcodeColumn" text="Barcode" />
+                                        <TableColumn fx:id="nameColumn" text="Name" />
+                                        <TableColumn fx:id="quantityColumn" text="Quantity" />
+                                        <TableColumn fx:id="priceColumn" text="Price" />
+                                        <TableColumn fx:id="totalColumn" text="Total" />
+                                    </columns>
+                                </TableView>
+                                <Label fx:id="totalAmountLabel" style="-fx-font-weight: bold; -fx-font-size: 18px;" />
+                            </children>
+                        </VBox>
+                    </children>
+                </VBox>
 
-      <!-- Replace the two labels with these anchored versions -->
-      <Label layoutX="67.0" text="ОБЩИЙ:" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="67.0" prefHeight="70.0" prefWidth="198.0">
-         <font>
-            <Font size="48.0" />
-         </font>
-      </Label>
-      <Label fx:id="totalPriceLabel" text="0" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="304.0" prefHeight="70.0" prefWidth="198.0">
-         <font>
-            <Font size="48.0" />
-         </font>
-      </Label>
+                <!-- Right Side: Payment Section -->
+                <VBox prefWidth="300" spacing="15" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 10;">
+                    <children>
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 18px;" text="Payment" />
 
-   </children>
+                        <HBox spacing="10">
+                            <children>
+                                <RadioButton fx:id="cashRadio" style="-fx-font-size: 16px;" text="Cash" />
+                                <RadioButton fx:id="cardRadio" style="-fx-font-size: 16px;" text="Card" />
+                            </children>
+                        </HBox>
+
+                        <VBox fx:id="cashPaymentPane" spacing="10">
+                            <children>
+                                <TextField fx:id="receivedAmountField" promptText="Enter received amount" style="-fx-font-size: 16px; -fx-padding: 10px;" />
+                                <Button fx:id="calculateChangebtn" style="-fx-font-size: 16px; -fx-padding: 10px 20px;" text="Calculate Change" />
+                                <Label fx:id="changeLabel" style="-fx-font-size: 16px;" />
+                            </children>
+                        </VBox>
+
+                        <Button fx:id="commitbtn" style="-fx-background-color: #1E88E5; -fx-text-fill: white; -fx-font-size: 18px; -fx-padding: 15px 30px;" text="Commit Transaction" />
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </children>
 </AnchorPane>

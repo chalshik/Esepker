@@ -1,217 +1,308 @@
 package com.example.esepkersoft.Controllers;
 
-import com.example.esepkersoft.Models.Product;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ObservableList;
+import javafx.scene.layout.VBox;
+import com.example.esepkersoft.Models.Sales;
+import javafx.scene.control.TextField;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.shape.Circle;
-import javafx.scene.paint.Color;
-import javafx.application.Platform;
-import com.example.esepkersoft.Services.ScannerService;
-import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import com.example.esepkersoft.Services.ProductOperations;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class SalesPointController {
-
+    @FXML
+    private Button addToCartbtn;
+    @FXML
+    private Button scanBarcodebtn;
 
     @FXML
-    private TableView<Product> productsTableView;
-    // Reference the columns
-    @FXML
-    private TableColumn<Product, String> productColumn;
-    @FXML
-    private TableColumn<Product, String> amountColumn;
-    @FXML
-    private TableColumn<Product, String> priceColumn;
-
+    private TextField barcodeField;
 
     @FXML
-    private TextField barcodeInput;
-    @FXML
-    private TextField amountInput;
-    @FXML
-    private ComboBox<String> unitComboBox;
-    @FXML
-    private Label pieceLabel; // to replace unitComboBox with ШТ
+    private VBox productDetailsPane;
 
     @FXML
-    private Label totalPriceLabel;
-    @FXML
-    private Group paymentOptionGroup;
-    @FXML
-    private Circle cashCircle;
-    @FXML
-    private Circle cardCircle;
+    private Label productNameLabel;
 
     @FXML
-    private Group cashOptionGroup;
-    @FXML
-    private TextField clientMoney; // how much client gave
-    @FXML
-    private Label clientChange; // СДАЧА
-
+    private Label productPriceLabel;
 
     @FXML
-    private Button finishButton;
-
-
-
-
-
-
-    
-    private final ScannerService barcodeScannerService = new ScannerService();
+    private TextField quantityField;
 
     @FXML
-    public void initialize() {
-        // Set cashCircle to blue by default
-        cashCircle.setFill(Color.BLUE);
+    private ComboBox<String> measureUnitCombo;
 
-        // Set ComboBox items for products
-        unitComboBox.getItems().addAll("гр", "кг");
-        unitComboBox.setValue("гр"); // Default selection
+    @FXML
+    private TableView<Sales> cartTable;
 
-        // Configure the existing columns from FXML
-        productColumn.setCellValueFactory(cellData -> cellData.getValue().barcodeProperty());
-        
-        amountColumn.setCellValueFactory(cellData -> {
-            Product product = cellData.getValue();
-            return new SimpleStringProperty(product.getAmount() + " " + product.getUnit());
-        });
-        
-        priceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty());
+    @FXML
+    private TableColumn<Sales, String> barcodeColumn;
 
-        // Initialize items list
-        productsTableView.setItems(FXCollections.observableArrayList());
-        
-        // Load dummy data
-        loadDummyData();
-        amountInput.setOnAction(event -> {
-            String barcode = barcodeInput.getText();
-            String amount = amountInput.getText();
-            String unit = unitComboBox.getValue();
-            String price = "0"; // Placeholder for the price. Set it according to your logic.
-        
-            // Check if all inputs are filled
-            if (barcode != null && !barcode.isEmpty() && amount != null && !amount.isEmpty() && unit != null) {
-                // Create a new Product with the input data
-                Product newProduct = new Product(barcode, amount, unit, price);
-        
-                // Add the new product to the TableView's items
-                productsTableView.getItems().add(newProduct);
-        
-                // Optionally, clear inputs after adding the product
-                barcodeInput.clear();
-                amountInput.clear();
-                unitComboBox.setValue("гр"); // Reset ComboBox to default
-            }
-        });
-        Platform.runLater(() -> {
-            Node header = productsTableView.lookup(".column-header-background");
-            if (header != null) {
-                header.setStyle("-fx-max-height: 0; -fx-pref-height: 0; -fx-min-height: 0;");
-            }
+    @FXML
+    private TableColumn<Sales, String> nameColumn;
+
+    @FXML
+    private TableColumn<Sales, Double> quantityColumn;
+
+    @FXML
+    private TableColumn<Sales, Double> priceColumn;
+
+    @FXML
+    private TableColumn<Sales, Double> totalColumn;
+
+    @FXML
+    private Label totalAmountLabel;
+
+    @FXML
+    private RadioButton cashRadio;
+
+    @FXML
+    private RadioButton cardRadio;
+
+    @FXML
+    private VBox cashPaymentPane;
+
+    @FXML
+    private TextField receivedAmountField;
+
+    @FXML
+    private Label changeLabel;
+
+    @FXML
+    private ToggleGroup cashOrCardToggle;
+
+    @FXML
+    private Button calculateChangebtn;
+
+    @FXML
+    private Button commitbtn;
+
+    @FXML
+    private Label totalOfProductLabel;
+    private double lastProductsPrice = (double) 0;
+    private ObservableList<Sales> salesList = FXCollections.observableArrayList();
+    private String lastEnteredBarcode = " ";
+    private double lastProductsAmount = 0;
+    private String lastSelectedRadioButton = " ";
+    @FXML
+    private void initialize(){
+        cashOrCardToggle = new ToggleGroup();
+        cashRadio.setToggleGroup(cashOrCardToggle);
+        cardRadio.setToggleGroup(cashOrCardToggle);
+        // when barcode entered
+        barcodeField.setOnAction(event -> {
+            scanBarcode();
         });
 
+        scanBarcodebtn.setOnAction(event ->{
+            scanBarcode();
+        });
+        // disabling combo box
+        measureUnitCombo.setDisable(true);
 
+        measureUnitCombo.getItems().addAll("kg", "g");
 
+        quantityField.setOnAction(event -> {
+            try {
+                double quantity = Double.parseDouble(quantityField.getText().trim());
 
-        // Request focus on the barcode input field
-        Platform.runLater(() -> barcodeInput.requestFocus());
+                // Ensure quantity is non-negative
+                if (quantity < 0) {
+                    totalOfProductLabel.setText("Ошибка: количество < 0");
+                    return;
+                }
+                if ("g".equals(measureUnitCombo.getValue())) {
+                    quantity = quantity / 1000;
+                }
+                lastProductsAmount = quantity;
+                double total = quantity * lastProductsPrice;
 
-        // Set up barcode scanner functionality
-        barcodeScannerService.setOnBarcodeScanned(this::handleBarcode);
-
-        // Detect barcode input when "Enter" is pressed
-        barcodeInput.setOnAction(event -> {
-            String scannedCode = barcodeInput.getText();
-            if (scannedCode != null && !scannedCode.isEmpty()) {
-                barcodeScannerService.handleBarcodeInput(scannedCode);
-                barcodeInput.clear();  // Clear after processing
+                // Format output to avoid unnecessary ".0"
+                totalOfProductLabel.setText(String.format("Итого за продукт: %.2f", total));
+            } catch (NumberFormatException e) {
+                totalOfProductLabel.setText("Ошибка: неверный ввод");
             }
         });
 
-}
 
-    // Circles functionality
-    @FXML
-    private void handleCashClick() {
-        cashOptionGroup.setVisible(true);
+        measureUnitCombo.setOnAction(event -> {
+            try {
+                double quantity = Double.parseDouble(quantityField.getText().trim());
 
-        cashCircle.setFill(Color.BLUE); // Set cashCircle to blue
-        cardCircle.setFill(Color.WHITE); // Reset cardCircle to default color
+                // Ensure quantity is non-negative
+                if (quantity < 0) {
+                    totalOfProductLabel.setText("Ошибка: количество < 0");
+                    return;
+                }
+
+                // Calculate the total based on the selected measure unit
+                double total;
+                if ("g".equals(measureUnitCombo.getValue())) {
+                    total = lastProductsPrice * (quantity / 1000);
+                    // Convert to kilograms if "g"
+                    quantity = quantity/1000;
+
+                } else {
+                    total = lastProductsPrice * quantity; // Regular price calculation
+                }
+                lastProductsAmount = quantity;
+                // Round to 2 decimal places
+                BigDecimal roundedTotal = BigDecimal.valueOf(total).setScale(2, RoundingMode.HALF_UP);
+                totalOfProductLabel.setText("Итого за продукт: " + roundedTotal);
+
+            } catch (NumberFormatException e) {
+                totalOfProductLabel.setText("Ошибка: неверный ввод");
+            }
+        });
+        scanBarcodebtn.setOnAction(event -> {
+
+        });
+
+        barcodeColumn.setCellValueFactory(new PropertyValueFactory<>("barcode"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<>("priceForPiece"));
+        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        totalColumn.setCellValueFactory(new PropertyValueFactory<>("totalPriceOfProduct"));
+        cartTable.setItems(salesList);
+        addToCartbtn.setOnAction(event -> {
+            addToCart();
+        });
+        quantityField.setOnAction(event -> {
+            addToCart();
+        });
+        receivedAmountField.setOnAction(event -> {
+            calculateChange();
+        });
+        calculateChangebtn.setOnAction(event -> {
+            calculateChange();
+        });
+        receivedAmountField.setDisable(true);
+        calculateChangebtn.setDisable(true);
+        cashOrCardToggle.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
+            if (newToggle != null) {
+                RadioButton selectedRadio = (RadioButton) newToggle;
+                if ("Cash".equals(selectedRadio.getText())) {
+                    receivedAmountField.setText(null);
+                    receivedAmountField.setDisable(false);
+                    changeLabel.setText(null);
+                    calculateChangebtn.setDisable(false);
+                    lastSelectedRadioButton = "cash";
+                } else {
+                    receivedAmountField.setText(null);
+                    receivedAmountField.setDisable(true);
+                    changeLabel.setText(null);
+                    calculateChangebtn.setDisable(true);
+                    lastSelectedRadioButton = "card";
+                }
+            }
+        });
+        commitbtn.setOnAction(event -> {
+            commitSale();
+        });
+
     }
-
-    @FXML
-    private void handleCardClick() {
-        cashOptionGroup.setVisible(false);
-
-        cardCircle.setFill(Color.BLUE); // Set cardCircle to blue
-        cashCircle.setFill(Color.WHITE); // Reset cashCircle to default color
-        
+    private void calculateChange() {
+        double receivedAmount = Double.parseDouble(receivedAmountField.getText());
+        changeLabel.setText(String.valueOf(receivedAmount - Double.parseDouble(totalAmountLabel.getText())));
     }
-    
-    private void handleBarcode(String barcode) {
-        System.out.println("Handling barcode: " + barcode);
-        barcodeInput.setText(barcode);
-    }
-    
-    // Add this method to your SalesPointController class
-    private void loadDummyData() {
-        // Clear existing items
-        productsTableView.getItems().clear();
-        
-        // Add weight-based products (kg)
-        addDummyProduct("1234567890123", "Яблоки", "кг", "150");
-        addDummyProduct("2345678901234", "Картофель", "кг", "80");
-        
-        // Add weight-based products (gram)
-        addDummyProduct("3456789012345", "Орехи", "гр", "1200");
-        addDummyProduct("4567890123456", "Конфеты", "гр", "800");
-        
-        // Add piece-based products
-        addDummyProduct("5678901234567", "Хлеб", "шт", "45");
-        addDummyProduct("6789012345678", "Молоко", "шт", "95");
-        
-        // Update total price
-        updateTotalPrice();
-    }
-
-    private void addDummyProduct(String barcode, String name, String unit, String pricePerUnit) {
-        // Set default amount based on unit type
-        String amount;
-        if (unit.equals("гр")) {
-            amount = "100";
-        } else if (unit.equals("кг")) {
-            amount = "1";
-        } else { // piece
-            amount = "1";
-        }
-        
-        // Calculate price based on amount and price per unit
-        double priceValue;
-        if (unit.equals("гр")) {
-            // Convert price per kg to price for the given grams
-            priceValue = Double.parseDouble(pricePerUnit) * Double.parseDouble(amount) / 1000;
+    private void addToCart() {
+        Sales existingSale = productExistsInTable(lastEnteredBarcode);
+        if (existingSale != null) {
+            // Update the existing sale's quantity and total price
+            existingSale.setAmount(existingSale.getAmount() + lastProductsAmount);
+            cartTable.refresh(); // Refresh table view to show updated values
         } else {
-            priceValue = Double.parseDouble(pricePerUnit) * Double.parseDouble(amount);
+            Sales sale = new Sales(lastEnteredBarcode, productNameLabel.getText(), lastProductsAmount, lastProductsPrice);
+            salesList.add(sale);
         }
-        
-        String price = String.format("%.2f", priceValue);
-        
-        // Create and add the product
-//        Product product = new Product(name, amount, unit, price);
-//        product.setBarcode(barcode);
-//        productsTableView.getItems().add(product);
+        totalAmountLabel.setText(totalAmountOnCart());
+
+    }
+    private String totalAmountOnCart() {
+        Double total = (double) 0;
+        for (Sales sale : cartTable.getItems()) {
+            total += sale.getTotalPriceOfProduct();
+        }
+        return String.valueOf(total);
     }
 
-    private void updateTotalPrice() {
-        double total = 0;
-        for (Product product : productsTableView.getItems()) {
-            total += Double.parseDouble(product.getPrice());
+    private Sales productExistsInTable(String barcode) {
+        for (Sales sale : cartTable.getItems()) {
+            if (sale.getBarcode().equals(barcode)) {
+                return sale;
+            }
         }
-        totalPriceLabel.setText(String.format("%.2f", total));
+        return null;
     }
+
+    private void scanBarcode(){
+        String query = barcodeField.getText().trim(); // Trim input to avoid spaces
+        HashMap<String, Object> productDetails = ProductOperations.getProductByBarcode(query);
+
+        if (productDetails == null || productDetails.isEmpty()) {
+            productNameLabel.setText("Продукт не найден");
+            productPriceLabel.setText("Цена: -");
+            totalOfProductLabel.setText("Итого за продукт: -");
+            quantityField.setText("");
+            measureUnitCombo.setDisable(true); // Ensure combobox is disabled if product is not found
+            quantityField.setDisable(true);
+            addToCartbtn.setDisable(true);
+            barcodeField.clear();
+            return;
+        }
+
+        productNameLabel.setText((String) productDetails.getOrDefault("name", "Неизвестный продукт"));
+
+        // Convert price safely
+        Object priceObject = productDetails.get("price");
+        double price = priceObject instanceof Double ? (Double) priceObject : Double.parseDouble(priceObject.toString());
+
+        productPriceLabel.setText("Цена: " + price);
+        totalOfProductLabel.setText("Итого за продукт: " + price);
+        quantityField.setText("1");
+        lastProductsAmount = 1;
+        // Disable combo box by default
+        measureUnitCombo.setDisable(true);
+
+        // Enable combo box if product is measurable
+        if ("measurable".equals(String.valueOf(productDetails.get("type")))) {
+            measureUnitCombo.setDisable(false);
+        }
+
+        lastProductsPrice = price;
+        // Store price correctly
+        lastEnteredBarcode = barcodeField.getText();
+        barcodeField.clear();
+        quantityField.setDisable(false);
+        addToCartbtn.setDisable(false);
+    }
+    private void commitSale() {
+        List<HashMap<String, Object>> listOfSaleMap = new ArrayList<>();
+        for (Sales sale : cartTable.getItems()) {
+            HashMap<String, Object> saleMap = new HashMap<>();
+            saleMap.put("barcode", sale.getBarcode());
+            saleMap.put("name", sale.getName());
+            saleMap.put("quantity", sale.getAmount());
+            saleMap.put("price", sale.getPriceForPiece());
+            saleMap.put("total_price_of_product", sale.getTotalPriceOfProduct());
+            listOfSaleMap.add(saleMap);
+        }
+        HashMap<String, Object> paymentMethod = new HashMap<>();
+
+        paymentMethod.put("payment_method", lastSelectedRadioButton);
+
+
+        ProductOperations.insertToDatabase(listOfSaleMap,lastSelectedRadioButton, totalAmountLabel.getText());
+    }
+
 }
+
+
