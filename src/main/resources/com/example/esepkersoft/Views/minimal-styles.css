@@ -1,0 +1,190 @@
+/* Base Styles */
+.root {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-font-size: 20px; /* Elevated base font size */
+    -fx-background-color: #f8f9fa;
+}
+
+/* Layout Containers */
+.main-container {
+    -fx-spacing: 15;
+}
+.content-area {
+    -fx-spacing: 10;
+}
+.payment-section {
+    -fx-spacing: 10;
+    -fx-padding: 0 0 0 10;
+}
+
+/* Panels */
+.panel {
+    -fx-background-color: white;
+    -fx-padding: 30;
+    -fx-background-radius: 10; /* More rounded corners */
+    -fx-border-color: #dcdcdc;  /* Soft gray borders */
+    -fx-border-radius: 10;
+    -fx-border-width: 1.5;      /* Thinner lines for elegance */
+    -fx-spacing: 30;
+}
+.panel-light {
+    -fx-background-color: #f8f9fa;
+    -fx-padding: 30;
+    -fx-background-radius: 10;
+    -fx-border-color: #dcdcdc;
+    -fx-border-radius: 10;
+    -fx-border-width: 1.5;
+    -fx-spacing: 25;
+}
+
+/* Headers */
+.section-header {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 15 0;
+}
+.subsection-header {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+/* Form Controls */
+.text-input {
+    -fx-padding: 18;
+    -fx-background-radius: 10;
+    -fx-border-color: #dcdcdc;
+    -fx-border-radius: 10;
+    -fx-border-width: 1.5;
+    -fx-font-size: 20px;
+}
+.text-input:focused {
+    -fx-border-color: #80bdff;
+}
+.combo-box {
+    -fx-padding: 15;
+    -fx-background-radius: 10;
+    -fx-border-color: #dcdcdc;
+    -fx-border-radius: 10;
+    -fx-border-width: 1.5;
+    -fx-font-size: 20px;
+}
+
+/* Buttons */
+.action-button {
+    -fx-background-color: #f8f9fa;
+    -fx-text-fill: #212529;
+    -fx-border-color: #dcdcdc;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 15 25;
+    -fx-font-size: 20px;
+}
+.action-button:hover {
+    -fx-background-color: #e9ecef;
+}
+.primary-button {
+    -fx-background-color: #007bff;
+    -fx-text-fill: white;
+    -fx-background-radius: 10;
+    -fx-padding: 15 30;
+    -fx-font-size: 22px;
+    -fx-border: none;
+}
+.primary-button:hover {
+    -fx-background-color: #0069d9;
+}
+.secondary-button {
+    -fx-background-color: #6c757d;
+    -fx-text-fill: white;
+    -fx-background-radius: 10;
+    -fx-padding: 15 30;
+    -fx-font-size: 20px;
+    -fx-border: none;
+}
+.secondary-button:hover {
+    -fx-background-color: #5a6268;
+}
+
+/* Product Details */
+.product-details {
+    -fx-background-color: #f8f9fa;
+    -fx-padding: 10;
+    -fx-background-radius: 3;
+    -fx-spacing: 10;
+}
+.product-name {
+    -fx-font-weight: bold;
+    -fx-font-size: 24px;
+}
+.product-price {
+    -fx-font-weight: bold;
+    -fx-font-size: 22px;
+    -fx-text-fill: #495057;
+}
+
+/* TableView Styling */
+.cart-table {
+    -fx-font-size: 18px;
+    -fx-background-color: white;
+    -fx-table-cell-border-color: transparent; /* Disable built-in cell borders */
+}
+
+/* Header Background: apply only right and bottom borders */
+.cart-table .column-header-background {
+    -fx-background-color: #f2f2f2;
+    -fx-border-style: solid;
+    -fx-border-color: #dcdcdc;
+    -fx-border-width: 0 1px 1px 0;
+}
+
+/* Header Text */
+.cart-table .column-header {
+    -fx-alignment: CENTER;
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-padding: 15;
+}
+
+/* Table Cells: add only right and bottom borders to avoid overlapping */
+.cart-table .table-cell {
+    -fx-padding: 10;
+    -fx-border-style: solid;
+    -fx-border-color: #dcdcdc;
+    -fx-border-width: 0 1px 1px 0;
+}
+
+/* Remove any default row cell borders; our cell markers will manage the grid */
+.cart-table .table-row-cell {
+    -fx-background-color: white;
+    -fx-border-style: none;
+}
+
+/* Alternate Row Background for Readability */
+.cart-table .table-row-cell:odd {
+    -fx-background-color: #fafafa;
+}
+
+/* Selection styling for rows/cells */
+.cart-table .table-row-cell:selected,
+.cart-table .table-cell:selected {
+    -fx-background-color: #007bff;
+    -fx-text-fill: white;
+    -fx-border-color: #0056b3;
+}
+
+/* Totals & Monetary Styling */
+.total-label, .total-amount, .change-amount {
+    -fx-font-weight: bold;
+    -fx-font-size: 22px;
+}
+
+/* Error Message */
+.error-message {
+    -fx-text-fill: #dc3545;
+    -fx-background-color: #f8d7da;
+    -fx-padding: 15;
+    -fx-background-radius: 10;
+    -fx-border-color: #f5c6cb;
+    -fx-border-radius: 10;
+    -fx-border-width: 1.5;
+}

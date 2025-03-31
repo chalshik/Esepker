@@ -1,52 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<?import java.net.URL?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.esepkersoft.Controllers.SalesPointController">
+    <stylesheets>
+        <URL value="@minimal-styles.css" />
+    </stylesheets>
     <children>
-
-        <HBox spacing="20" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="20">
+        <HBox styleClass="main-container" AnchorPane.bottomAnchor="30" AnchorPane.leftAnchor="30" AnchorPane.rightAnchor="30" AnchorPane.topAnchor="30">
             <children>
-                <!-- Left Side: Barcode Scanning and Product Entry -->
-                <VBox spacing="15" HBox.hgrow="ALWAYS">
+                <!-- Left Side -->
+                <VBox spacing="20" styleClass="content-area" HBox.hgrow="ALWAYS">
                     <children>
-                        <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 10;">
+                        <VBox styleClass="panel">
                             <children>
-                                <Label style="-fx-font-weight: bold; -fx-font-size: 18px;" text="Barcode Scanning" />
-                                <HBox spacing="10">
+                                <Label styleClass="section-header" text="Barcode Scanning" />
+                                <HBox spacing="20">
                                     <children>
-                                        <TextField fx:id="barcodeField" promptText="Scan Barcode" style="-fx-font-size: 16px; -fx-padding: 10px;" HBox.hgrow="ALWAYS" />
-                                        <Button fx:id="scanBarcodebtn" style="-fx-font-size: 16px; -fx-padding: 10px 20px;" text="Scan" />
+                                        <TextField fx:id="barcodeField" promptText="Scan Barcode" styleClass="text-input" HBox.hgrow="ALWAYS" />
+                                        <Button fx:id="scanBarcodebtn" styleClass="action-button" text="Scan" />
                                     </children>
                                 </HBox>
-
-                                <VBox fx:id="productDetailsPane" spacing="10" style="-fx-background-color: #E8F5E9; -fx-padding: 15; -fx-background-radius: 10;">
+                                <!-- Enlarged Product Details -->
+                                <VBox fx:id="productDetailsPane" styleClass="product-details">
                                     <children>
-                                        <Label fx:id="productNameLabel" style="-fx-font-size: 16px;" />
-                                        <Label fx:id="productPriceLabel" style="-fx-font-size: 16px;" />
-
-                                        <HBox alignment="CENTER_LEFT" spacing="10">
+                                        <Label fx:id="productNameLabel" styleClass="product-name" />
+                                        <Label fx:id="productPriceLabel" styleClass="product-price" />
+                                        <HBox alignment="CENTER_LEFT" spacing="20">
                                             <children>
-                                                <Label style="-fx-font-size: 16px;" text="Quantity:" />
-                                                <TextField fx:id="quantityField" prefWidth="80" style="-fx-font-size: 16px; -fx-padding: 8px;" />
-                                                <ComboBox fx:id="measureUnitCombo" style="-fx-font-size: 16px;" />
-                                                <Label fx:id="totalOfProductLabel" style="-fx-font-size: 16px;" text="Label" />
-                                                <Button fx:id="addToCartbtn" style="-fx-font-size: 16px; -fx-padding: 10px 20px;" text="Add to Cart" />
+                                                <Label text="Quantity:" />
+                                                <TextField fx:id="quantityField" prefWidth="120" styleClass="text-input" />
+                                                <ComboBox fx:id="measureUnitCombo" styleClass="combo-box" prefWidth="120" />
+                                                <Label fx:id="totalOfProductLabel" styleClass="total-label" text="Label" />
+                                                <Button fx:id="addToCartbtn" styleClass="action-button" text="Add to Cart" />
                                             </children>
                                         </HBox>
                                     </children>
                                 </VBox>
                             </children>
                         </VBox>
-
-                        <!-- Cart Section -->
-                        <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 10;">
+                        <!-- Cart Enlarged -->
+                        <VBox styleClass="panel" VBox.vgrow="ALWAYS">
                             <children>
-                                <Label style="-fx-font-weight: bold; -fx-font-size: 18px;" text="Cart" />
-                                <TableView fx:id="cartTable" style="-fx-font-size: 16px;">
+                                <Label styleClass="section-header" text="Cart" />
+                                <TableView fx:id="cartTable" styleClass="cart-table" VBox.vgrow="ALWAYS">
+                                    <columnResizePolicy>
+                                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                    </columnResizePolicy>
                                     <columns>
                                         <TableColumn fx:id="barcodeColumn" text="Barcode" />
                                         <TableColumn fx:id="nameColumn" text="Name" />
@@ -55,33 +59,46 @@
                                         <TableColumn fx:id="totalColumn" text="Total" />
                                     </columns>
                                 </TableView>
-                                <Label fx:id="totalAmountLabel" style="-fx-font-weight: bold; -fx-font-size: 18px;" />
+                                <HBox alignment="CENTER_RIGHT" spacing="20">
+                                    <children>
+                                        <Label text="Total Amount:" />
+                                        <Label fx:id="totalAmountLabel" styleClass="total-amount" />
+                                    </children>
+                                </HBox>
                             </children>
                         </VBox>
                     </children>
                 </VBox>
-
-                <!-- Right Side: Payment Section -->
-                <VBox prefWidth="300" spacing="15" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 10;">
+                <!-- Payment Enlarged -->
+                <VBox prefWidth="400" spacing="20" styleClass="payment-section">
                     <children>
-                        <Label style="-fx-font-weight: bold; -fx-font-size: 18px;" text="Payment" />
-
-                        <HBox spacing="10">
+                        <Label styleClass="section-header" text="Payment" />
+                        <VBox styleClass="panel-light">
                             <children>
-                                <RadioButton fx:id="cashRadio" style="-fx-font-size: 16px;" text="Cash" />
-                                <RadioButton fx:id="cardRadio" style="-fx-font-size: 16px;" text="Card" />
-                            </children>
-                        </HBox>
-
-                        <VBox fx:id="cashPaymentPane" spacing="10">
-                            <children>
-                                <TextField fx:id="receivedAmountField" promptText="Enter received amount" style="-fx-font-size: 16px; -fx-padding: 10px;" />
-                                <Button fx:id="calculateChangebtn" style="-fx-font-size: 16px; -fx-padding: 10px 20px;" text="Calculate Change" />
-                                <Label fx:id="changeLabel" style="-fx-font-size: 16px;" />
+                                <Label styleClass="subsection-header" text="Payment Method" />
+                                <HBox spacing="30">
+                                    <children>
+                                        <RadioButton fx:id="cashRadio" text="Cash" />
+                                        <RadioButton fx:id="cardRadio" text="Card" />
+                                    </children>
+                                </HBox>
                             </children>
                         </VBox>
-
-                        <Button fx:id="commitbtn" style="-fx-background-color: #1E88E5; -fx-text-fill: white; -fx-font-size: 18px; -fx-padding: 15px 30px;" text="Commit Transaction" />
+                        <VBox fx:id="cashPaymentPane" styleClass="panel-light">
+                            <children>
+                                <Label styleClass="subsection-header" text="Cash Payment" />
+                                <TextField fx:id="receivedAmountField" promptText="Enter received amount" styleClass="text-input" prefWidth="200" />
+                                <Button fx:id="calculateChangebtn" styleClass="secondary-button" text="Calculate Change" />
+                                <HBox alignment="CENTER_LEFT" spacing="20">
+                                    <children>
+                                        <Label text="Change:" />
+                                        <Label fx:id="changeLabel" styleClass="change-amount" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                        <Button fx:id="commitbtn" styleClass="primary-button" text="Commit Transaction" />
+                        <Label fx:id="labelForErrorCommits" styleClass="error-message" text="Label" wrapText="true" />
                     </children>
                 </VBox>
             </children>
