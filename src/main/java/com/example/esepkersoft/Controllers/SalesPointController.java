@@ -74,7 +74,7 @@ public class SalesPointController {
         measureUnitCombo.setOnAction(event -> updateProductTotal());
 
         // Configure table columns
-        barcodeColumn.setCellValueFactory(new PropertyValueFactory<>("barcode"));
+        barcodeColumn.setCellValueFactory(new PropertyValueFactory<>("barcode figna"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("priceForPiece"));
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
