@@ -10,19 +10,20 @@ import java.io.IOException;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        // Load the login screen first
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Views/Login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Views/SalesPoint.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Login");
+        stage.setTitle("Barcode Scanner");
         stage.setScene(scene);
         
         // Make application full screen
         stage.setMaximized(true);
+        stage.setFullScreen(true);
         
         stage.show();
     }
 
     public static void main(String[] args) {
+
         launch();
-    }
+   }
 }

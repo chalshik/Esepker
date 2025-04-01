@@ -61,24 +61,14 @@ public class dbManager {
     }
 
     // Execute a SET query (INSERT, UPDATE, DELETE)
-    public boolean executeSet(String query) {
-        try (Statement statement = connection.createStatement()) {
-            System.out.println("Executing SET query: " + query);
-            statement.execute(query);
-            return true;
-        } catch (SQLException e) {
-            System.err.println("SET query error: " + e.getMessage());
-            openError();
-            return false;
-        }
-    }
-
-    // Execute a GET query (SELECT)
-    public List<Map<String, Object>> executeGet(String query) {
+    // Modified executeGet to accept parameters for prepared statement
+    public List<Map<String, Object>> executeGet(String query, Object... params) {
         List<Map<String, Object>> result = new ArrayList<>();
-        try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)) {
-            System.out.println("Executing GET query: " + query);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            for (int i = 0; i < params.length; i++) {
+                preparedStatement.setObject(i + 1, params[i]);
+            }
+            ResultSet resultSet = preparedStatement.executeQuery();
             ResultSetMetaData metaData = resultSet.getMetaData();
             int columnCount = metaData.getColumnCount();
 
@@ -98,12 +88,48 @@ public class dbManager {
         return result;
     }
 
+    // Modified executeSet to accept parameters for prepared statement
+    public boolean executeSet(String query, Object... params) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            for (int i = 0; i < params.length; i++) {
+                preparedStatement.setObject(i + 1, params[i]);
+            }
+            preparedStatement.execute();
+            return true;
+        } catch (SQLException e) {
+            System.err.println("SET query error: " + e.getMessage());
+            openError();
+            return false;
+        }
+    }
+
+
     // Create necessary tables
     private void createTables() {
-        String createTableQuery = "CREATE TABLE IF NOT EXISTS products ("
+        String createProductsTableQuery = "CREATE TABLE IF NOT EXISTS products ("
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + "barcode TEXT NOT NULL UNIQUE, "
-                + "name TEXT NOT NULL)";
-        executeSet(createTableQuery);
+                + "name TEXT NOT NULL, "
+                + "type TEXT NOT NULL, "
+                + "price TEXT NOT NULL)";
+        executeSet(createProductsTableQuery);
+        String createSalesTableQuery = "CREATE TABLE IF NOT EXISTS sales ("
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "date TEXT DEFAULT (datetime('now', 'localtime')), "
+                + "payment_method TEXT NOT NULL,"
+                + "total TEXT NOT NULL"
+                + ");";
+        executeSet(createSalesTableQuery);
+        String createSaleItemsQuery = "CREATE TABLE IF NOT EXISTS sale_items ("
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "barcode TEXT NOT NULL, "
+                + "name TEXT NOT NULL, "
+                + "quantity TEXT NOT NULL,"
+                + "price REAL NOT NULL, "
+                + "total_price_of_product REAL NOT NULL, "
+                + "sale_id INTEGER NOT NULL, "
+                + "FOREIGN KEY (sale_id) REFERENCES sales(id) ON DELETE CASCADE"
+                + ");";
+        executeSet(createSaleItemsQuery);
     }
 }
