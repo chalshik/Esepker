@@ -77,7 +77,7 @@ public class SalesPointController {
         barcodeColumn.setCellValueFactory(new PropertyValueFactory<>("barcode figna"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("priceForPiece"));
-        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("amoun"));
         totalColumn.setCellValueFactory(new PropertyValueFactory<>("totalPriceOfProduct"));
         cartTable.setItems(salesList);
 
