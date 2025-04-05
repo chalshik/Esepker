@@ -117,7 +117,7 @@ public class dbManager {
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + "barcode TEXT NOT NULL UNIQUE, "
                 + "name TEXT NOT NULL, "
-                + "type TEXT NOT NULL, "
+                + "type TEXT, "
                 + "price TEXT NOT NULL, "
                 + "unit_measurement TEXT NOT NULL DEFAULT 'countable' "
                 + "CHECK(unit_measurement IN ('measurable', 'countable')))";
