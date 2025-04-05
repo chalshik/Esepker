@@ -138,7 +138,7 @@ public class dbManager {
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + "barcode TEXT NOT NULL, "
                 + "name TEXT NOT NULL, "
-                + "quantity TEXT NOT NULL, "
+                + "quantity REAL NOT NULL, "
                 + "price REAL NOT NULL, "
                 + "total_price REAL NOT NULL, "
                 + "sale_id INTEGER NOT NULL, "
