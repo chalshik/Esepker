@@ -105,31 +105,44 @@ public class dbManager {
 
 
     // Create necessary tables
+    // Create all tables
     private void createTables() {
-        String createProductsTableQuery = "CREATE TABLE IF NOT EXISTS products ("
+        createProductsTable();
+        createSalesTable();
+        createSaleItemsTable();
+    }
+
+    private void createProductsTable() {
+        String query = "CREATE TABLE IF NOT EXISTS products ("
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + "barcode TEXT NOT NULL UNIQUE, "
                 + "name TEXT NOT NULL, "
                 + "type TEXT NOT NULL, "
-                + "price TEXT NOT NULL)";
-        executeSet(createProductsTableQuery);
-        String createSalesTableQuery = "CREATE TABLE IF NOT EXISTS sales ("
+                + "price TEXT NOT NULL, "
+                + "unit_measurement TEXT NOT NULL DEFAULT 'countable' "
+                + "CHECK(unit_measurement IN ('measurable', 'countable')))";
+        executeSet(query);
+    }
+
+    private void createSalesTable() {
+        String query = "CREATE TABLE IF NOT EXISTS sales ("
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + "date TEXT DEFAULT (datetime('now', 'localtime')), "
-                + "payment_method TEXT NOT NULL,"
-                + "total TEXT NOT NULL"
-                + ");";
-        executeSet(createSalesTableQuery);
-        String createSaleItemsQuery = "CREATE TABLE IF NOT EXISTS sale_items ("
+                + "payment_method TEXT NOT NULL, "
+                + "total TEXT NOT NULL)";
+        executeSet(query);
+    }
+
+    private void createSaleItemsTable() {
+        String query = "CREATE TABLE IF NOT EXISTS sale_items ("
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + "barcode TEXT NOT NULL, "
                 + "name TEXT NOT NULL, "
-                + "quantity TEXT NOT NULL,"
+                + "quantity TEXT NOT NULL, "
                 + "price REAL NOT NULL, "
-                + "total_price_of_product REAL NOT NULL, "
+                + "total_price REAL NOT NULL, "
                 + "sale_id INTEGER NOT NULL, "
-                + "FOREIGN KEY (sale_id) REFERENCES sales(id) ON DELETE CASCADE"
-                + ");";
-        executeSet(createSaleItemsQuery);
+                + "FOREIGN KEY (sale_id) REFERENCES sales(id) ON DELETE CASCADE)";
+        executeSet(query);
     }
 }
